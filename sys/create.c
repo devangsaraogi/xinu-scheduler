@@ -1,4 +1,11 @@
 /* create.c - create, newpid */
+/* 
+   D: KT
+   create() allocates a fresh stack, initializes a new entry in the process table, 
+   lays out the new process’s initial stack frame (arguments, return addresses, register save area) 
+   exactly the way the context switcher (ctxsw) expects, and returns a PID in the suspended state. 
+   resume(pid) can be used to actually run it.
+*/
     
 #include <conf.h>
 #include <i386.h>
