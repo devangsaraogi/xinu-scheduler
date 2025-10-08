@@ -1,5 +1,4 @@
 Q1
-
 A. EXPDISTSCHED
 Advantages:
 1) ensures probabilistc fairness while still favoring high priority processes
@@ -35,7 +34,6 @@ Disadvantages:
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Q2
-
 A. EXPDISTSCHED
 - the scheduler samples a random key from the exponential distribution and scans the ready queue for a matching process
 - if the queue is empty, null process is run
