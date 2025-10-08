@@ -6,6 +6,14 @@
 #include <q.h>
 #include <stdio.h>
 
+/*
+	D KT:
+	PRFREE corresponds to a free process table entry
+	A slot that is unallocated and available for use
+	The state a slot is in before a process is NEW and after a process it is TERMINATED and cleaned up
+	Its an EMPTY container ready to hold a new process
+*/
+
 /*------------------------------------------------------------------------
  * chprio  --  change the scheduling priority of a process
  *------------------------------------------------------------------------

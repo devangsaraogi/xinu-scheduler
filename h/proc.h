@@ -60,6 +60,12 @@ struct	pentry	{
 	int	fildes[_NFILE];		/* file - device translation	*/
 	int	ppagedev;		/* pageing dgram device		*/
 	int	pwaitret;
+
+	/* LINUXSCHED */
+	int lnx_counter; 	/* remaining time in current epoch */	
+	int lnx_goodness;	/* goodness score in current epoch */
+	int lnx_pexhaust;	/* flag to indicate if process exhausted its quantum in the last epoch */
+	int lnx_new;        /* falg to indicate if process is new (created mid-epoch) should be initialized next epoch */
 };
 
 

@@ -15,10 +15,14 @@ int ready(int pid, int resch)
 
 	if (isbadpid(pid))
 		return(SYSERR);
+
 	pptr = &proctab[pid];
 	pptr->pstate = PRREADY;
+
 	insert(pid,rdyhead,pptr->pprio);
+
 	if (resch)
 		resched();
+	
 	return(OK);
 }

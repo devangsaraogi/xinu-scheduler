@@ -18,4 +18,7 @@ int getschedclass(void);
 /* EXPDISTCHED helper */
 int expdist_pick_next(void);
 
+/* LINUXSCHED helper */
+int lnx_pick_next(void);
+
 #endif

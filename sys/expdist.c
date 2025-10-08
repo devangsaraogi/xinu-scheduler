@@ -11,8 +11,7 @@
 
 /* returns the oldest or frontmost PID at a given priority key */
 static int pick_front_at_key(int target_key) {
-    int it;
-    for (it = q[rdyhead].qnext; it != rdytail; it = q[it].qnext) {
+    for (int it = q[rdyhead].qnext; it != rdytail; it = q[it].qnext) {
         if (q[it].qkey == target_key) {
             /* return the first or oldest process match with the target key */
             return it; 
@@ -43,8 +42,7 @@ int expdist_pick_next(void) {
     int candidate = 0x7FFFFFFF;
 
     /* one pass of the ready queue to find min/max and smallest key strictly greater than r */
-    int it;
-    for (it = q[rdyhead].qnext; it != rdytail; it = q[it].qnext) {
+    for (int it = q[rdyhead].qnext; it != rdytail; it = q[it].qnext) {
         int currP = q[it].qkey;
         if (currP < minP) minP = currP;
         if (currP > maxP) maxP = currP;

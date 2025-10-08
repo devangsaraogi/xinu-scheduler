@@ -159,6 +159,12 @@ LOCAL int sysinit()
 	for (i=0 ; i<NPROC ; i++)	/* initialize process table */
 		proctab[i].pstate = PRFREE;
 
+		/* initialize LINUXSCHED fields to 0 */
+		proctab[i].lnx_counter = 0;
+		proctab[i].lnx_goodness = 0;
+		proctab[i].lnx_pexhaust = 0;
+		proctab[i].lnx_new = 0;
+
 	pptr = &proctab[NULLPROC];	/* initialize null process entry */
 	pptr->pstate = PRCURR;
 	for (j=0; j<7; j++)

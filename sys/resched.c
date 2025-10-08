@@ -61,7 +61,7 @@ int resched()
 			insert(currpid, rdyhead, optr->pprio);
 		}
 
-		/* if no process is ready, run NULL PROCESS only then */
+		/* if ready queue empty, run NULLPROC */
 		if (q[rdyhead].qnext == rdytail) {
 			int old = currpid;
 			currpid = NULLPROC;
@@ -73,7 +73,6 @@ int resched()
 			return OK;
 		}
 
-		/* selected by exponential rule */
 		int selected_proc = expdist_pick_next();
 
 		if (selected_proc == q[rdyhead].qnext) {
@@ -94,6 +93,76 @@ int resched()
 		ctxsw((int)&optr->pesp, (int)optr->pirmask, (int)&nptr->pesp, (int)nptr->pirmask);
 		return OK;
 	}
+
+	if (sched_class == LINUXSCHED) {
+		optr = &proctab[currpid];
+
+		if (optr->pstate == PRCURR && currpid != NULLPROC) {
+			/* save remaining counter of old process */
+			optr->lnx_counter = preempt;
+
+			/* if old process exhausted its quantum
+			   set goodness and counter to 0 and pexhaust to 1
+			   else update goodness and pexhaust to 0 */
+			if(optr->lnx_counter <= 0) {
+				optr->lnx_counter = 0;
+				optr->lnx_goodness = 0; 
+				optr->lnx_pexhaust = 1; 
+			}
+			else {
+				optr->lnx_goodness = optr->pprio + optr->lnx_counter;
+				optr->lnx_pexhaust = 0;
+			}
+
+			/* insert old process back into ready queue */
+			optr->pstate = PRREADY;
+			insert(currpid, rdyhead, optr->pprio);
+		}
+
+		/* if ready queue empty, run NULLPROC */
+		if (q[rdyhead].qnext == rdytail) {
+			int old = currpid;
+			currpid = NULLPROC;
+			proctab[currpid].pstate = PRCURR;
+#ifdef	RTCLOCK
+			preempt = QUANTUM;
+#endif
+			ctxsw((int)&optr->pesp, (int)optr->pirmask, (int)&proctab[NULLPROC].pesp, (int)proctab[NULLPROC].pirmask);
+			return OK;
+		}
+		/* pick next process to run */
+		int selected_proc = lnx_pick_next();
+		
+		if (selected_proc == NULLPROC) {
+			currpid = NULLPROC;
+			proctab[currpid].pstate = PRCURR;
+#ifdef	RTCLOCK
+			preempt = QUANTUM;
+#endif
+			ctxsw((int)&optr->pesp, (int)optr->pirmask, (int)&proctab[NULLPROC].pesp, (int)proctab[NULLPROC].pirmask);
+			return OK;
+		}
+
+		/* dequeue selected process from ready queue */
+		if (selected_proc == q[rdyhead].qnext) {
+			selected_proc = getfirst(rdyhead);
+		} else if (selected_proc == q[rdytail].qprev) {
+			selected_proc = getlast(rdytail);
+		} else {
+			dequeue(selected_proc);
+		}
+
+		nptr = &proctab[selected_proc];
+		nptr->pstate = PRCURR;		/* mark it currently running */
+		int old = currpid;
+		currpid = selected_proc;
+#ifdef	RTCLOCK
+		preempt = (nptr-> lnx_counter > 0) ? nptr-> lnx_counter : QUANTUM;		/* reset preemption counter	*/
+#endif
+		ctxsw((int)&optr->pesp, (int)optr->pirmask, (int)&nptr->pesp, (int)nptr->pirmask);
+		return OK;
+	}
+
 
 	/* no switch needed if current process priority higher than next*/
 
