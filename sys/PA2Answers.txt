@@ -1,0 +1,50 @@
+Q1
+
+A. EXPDISTSCHED
+Advantages:
+1) ensures probabilistc fairness while still favoring high priority processes
+2) reduces startvation compared to strict priority scheduling
+3) handles bursty workloads well because it uses the exponential distribution to decide which process to pick next
+
+Disadvantages:
+1) scheduling is non-deterministic
+2) randomness could result in short term unfairness
+3) no guarentee scheduling because low priority process can preempt a high priority one
+
+B. LINUXSCHED
+Advantages:
+1) good balance of fairness and responsiveness by computing goodness factor
+2) avoids startvation because of epoch reset mechanism; all processes get CPU time
+3) designed in a way that cpu bound processes get smaller quanta in future epochs and interractive tasks get larger quanta in future epochs
+
+Disadvantages:
+1) complex; have to track epochs and goodness
+2) slight increase in switch overhead because of epoch, goodness recomputation
+3) difficult to predict behavior compared to fixed priority or round robin scheduling
+
+C. DEFAULT XINU: ROUND ROBIN
+Advantages:
+1) simple and deterministic - all ready processes share cpu equally in order
+2) low overhead - no priority calculation
+3) suitable for systems with tasks which are going to run processes of equal weight
+
+Disadvantages:
+1) no adaptability - high priority processes cannot preempt low priority processes
+2) can lead to inefficient use of cpu if many short or i/o processes exist
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2
+
+A. EXPDISTSCHED
+- the scheduler samples a random key from the exponential distribution and scans the ready queue for a matching process
+- if the queue is empty, null process is run
+
+B. LINUXSCHED
+- during an epoch, the scheduler picks the process with the highest goodness value
+- if/when all processes have goodness value = 0, a new epoch is started and if no process becomes ready after that, the scheduler runs the null process
+- the null process will only run when other process are blocked/sleeping or they have exhausted quanta
+
+C. DEFAULT XINU: ROUND ROBIN
+- the scheduler maintains a ready queue of processes i.e. all process are PRREADY
+- every reschedule, process with high priority is picked and if the queue is empty chooses the null process
