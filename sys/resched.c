@@ -56,6 +56,7 @@ int resched()
 	if (sched_class == EXPDISTSCHED) {
 	    optr = &proctab[currpid];
 
+		
 		if (optr->pstate == PRCURR && currpid != NULLPROC) {
 			optr->pstate = PRREADY;
 			insert(currpid, rdyhead, optr->pprio);
@@ -132,7 +133,7 @@ int resched()
 		}
 		/* pick next process to run */
 		int selected_proc = lnx_pick_next();
-		
+
 		if (selected_proc == NULLPROC) {
 			currpid = NULLPROC;
 			proctab[currpid].pstate = PRCURR;

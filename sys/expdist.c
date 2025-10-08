@@ -18,7 +18,7 @@ static int pick_front_at_key(int target_key) {
         }
     }
 
-    kprintf("expdist invariant violated, target_key: %d not found\n", target_key);
+    // kprintf("expdist invariant violated, target_key: %d not found\n", target_key);
 
     /* 
         expdist_pick_next arrives at target_key by scanning the ready queue 
@@ -34,7 +34,6 @@ int expdist_pick_next(void) {
         return NULLPROC;
 
     double r = expdev(0.1);
-
 
     /* trackers for min/max priority and candidate key */
     int minP = 0x7FFFFFFF;
