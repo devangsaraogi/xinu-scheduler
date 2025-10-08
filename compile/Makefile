@@ -393,8 +393,8 @@ lnxsched.o: ../sys/lnxsched.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/q.h \
  ../h/sched.h
 main.o: ../sys/main.c /usr/include/stdc-predef.h ../h/conf.h \
- ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/proc.h ../h/stdio.h \
- ../h/sched.h
+ ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/q.h ../h/sched.h \
+ ../h/stdio.h ../h/math.h
 mark.o: ../sys/mark.c /usr/include/stdc-predef.h ../h/conf.h \
  ../h/kernel.h ../h/systypes.h ../h/mem.h ../h/mark.h
 math.o: ../sys/math.c /usr/include/stdc-predef.h ../h/math.h
