@@ -1,4 +1,4 @@
-# Project 2: Process Scheduling
+# Process Scheduling
 
 ## Overview
 Implementation of two advanced process scheduling algorithms for the Xinu operating system that address starvation: an Exponential Distribution Scheduler and a Linux-like Scheduler (emulating Linux 2.2 kernel).
@@ -12,20 +12,20 @@ Implementation of two advanced process scheduling algorithms for the Xinu operat
 ## Files Modified/Created
 
 ### Created Files
-- `h/sched.h` - Scheduler constants and function declarations
-- `sys/expdist.c` - Exponential distribution scheduler implementation
-- `sys/lnxsched.c` - Linux-like scheduler implementation
-- `sys/sched.c` - Scheduler class management functions
+- [`h/sched.h`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/h/sched.h) - Scheduler constants and function declarations
+- [`sys/expdist.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/expdist.c) - Exponential distribution scheduler implementation
+- [`sys/lnxsched.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/lnxsched.c) - Linux-like scheduler implementation
+- [`sys/sched.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/sched.c) - Scheduler class management functions
 
 ### Modified Files
-- `h/proc.h` - Added Linux scheduler fields (lnx_counter, lnx_goodness, lnx_pexhaust, lnx_new)
-- `sys/resched.c` - Updated to dispatch to appropriate scheduler
-- `sys/create.c` - Initialize scheduler-specific fields for new processes
-- `sys/ready.c` - Updated for scheduler integration
-- `sys/chprio.c` - Handle priority changes with Linux scheduler epoch considerations
-- `sys/initialize.c` - Initialize scheduler subsystem
-- `sys/insert.c` - Modified queue insertion logic for scheduler requirements
-- `compile/Makefile` - Added new source files to build
+- [`h/proc.h`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/h/proc.h) - Added Linux scheduler fields (lnx_counter, lnx_goodness, lnx_pexhaust, lnx_new)
+- [`sys/resched.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/resched.c) - Updated to dispatch to appropriate scheduler
+- [`sys/create.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/create.c) - Initialize scheduler-specific fields for new processes
+- [`sys/ready.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/ready.c) - Updated for scheduler integration
+- [`sys/chprio.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/chprio.c) - Handle priority changes with Linux scheduler epoch considerations
+- [`sys/initialize.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/initialize.c) - Initialize scheduler subsystem
+- [`sys/insert.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/insert.c) - Modified queue insertion logic for scheduler requirements
+- [`compile/Makefile`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/compile/Makefile) - Added new source files to build
 
 ## How to Build and Run
 
@@ -59,7 +59,7 @@ make clean
 
 ## Notes/Assumptions
 - NULL process (priority 0) only runs when no other processes are ready
-- Exponential scheduler uses `expdev(0.1)` from `sys/math.c`
+- Exponential scheduler uses `expdev(0.1)` from [`sys/math.c`](https://github.com/devangsaraogi/xinu-scheduler/blob/main/sys/math.c)
 - Linux scheduler processes created mid-epoch wait until next epoch
 - Priority changes take effect at next epoch boundary for Linux scheduler
 - Test programs should not be placed in `main.c` as it will be replaced during grading
